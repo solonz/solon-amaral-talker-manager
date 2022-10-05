@@ -44,7 +44,7 @@ app.listen(PORT, () => {
 app.get('/talker', async (req, res) => {
 const talkers = await readTalkerData();
 
-if (!talkers) {
+if (talkers) {
   res.status(200).json(talkers);
 } else {
   res.sendStatus(404);
