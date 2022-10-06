@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const crypto = require('crypto');
+const validateEmail = require('./middlewares/validateEmail');
+const validatePassword = require('./middlewares/validatePassword');
 const { 
   // writeNewTalkerData, 
   readTalkerData,
@@ -64,11 +66,7 @@ app.get('/talker/:id', async (req, res) => {
     res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   });  
 
-app.post('/login', async (req, res) => {
-// const { email } = await req.body;
-// const { password } = await req.body;
-// await writeNewTalkerData(newTalker);
+app.post('/login', validateEmail, validatePassword, async (req, res) => {
 const randomToken = crypto.randomBytes(8).toString('hex');
 return res.status(200).json({ token: randomToken });
-// .send(`email: ${email}, password: ${password}`);
 });
