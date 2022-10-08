@@ -13,12 +13,15 @@ async function readTalkerData() {
 
 readTalkerData();
 
-async function writeNewTalkerData(newTalkerData) {
+async function newTalkerData(newTalker) {
     try {
         const oldTalkerData = await readTalkerData();
-        const allTalkerData = JSON.stringify([...oldTalkerData, newTalkerData]);
+        const newTalkers = { id: oldTalkerData.length + 1, ...newTalker };
+        const allTalkerData = JSON.stringify([...oldTalkerData, newTalkers]);
+        console.log(allTalkerData);
 
         await fs.writeFile('./src/talker.json', allTalkerData);
+        return newTalkers;
     } catch (error) {
         console.log(`erro na criação de dados: ${error}`);
     }
@@ -26,5 +29,5 @@ async function writeNewTalkerData(newTalkerData) {
 
 module.exports = {
     readTalkerData,
-    writeNewTalkerData,
+    newTalkerData,
 };
