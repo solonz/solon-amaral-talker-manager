@@ -16,12 +16,13 @@ readTalkerData();
 async function newTalkerData(newTalker) {
     try {
         const oldTalkerData = await readTalkerData();
-        const xablau = { id: (oldTalkerData.length + 1), ...newTalker };
-        console.log(xablau);
-        return xablau;
+        const newTalkers = { id: oldTalkerData.length + 1, ...newTalker };
+        const allTalkerData = JSON.stringify([...oldTalkerData, newTalkers]);
+        console.log(allTalkerData);
+        await fs.writeFile('./src/talker.json', allTalkerData);
+        return newTalkers;
     } catch (error) {
-        console.log(`erro na criação de dados: ${error}`);
-        return [];
+        console.error(`erro na leitura dos dados: ${error}`);
     }
 }
 

@@ -72,7 +72,7 @@ app.get('/talker/:id', async (req, res) => {
     res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   });  
 
-app.post('/login', validateEmail, validatePassword, async (req, res) => {
+app.post('/login', validateEmail, validatePassword, async (_req, res) => {
 const randomToken = crypto.randomBytes(8).toString('hex');
 return res.status(200).json({ token: randomToken });
 });
@@ -83,7 +83,9 @@ return res.status(200).json({ token: randomToken });
 app.post('/talker', validateToken, validateName, 
 validateAge, validateTalk, validateWatchedAt, validateRate, async (req, res) => {
   const newTalker = req.body; 
+  console.log(newTalker);
   const newTalkers = await newTalkerData(newTalker);
+  console.log(newTalkers);
   return res.status(201).json(newTalkers);
 });
 
