@@ -5,7 +5,7 @@ const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
 const { 
   // writeNewTalkerData, 
-  readTalkerData, newTalkerData,
+  readTalkerData, newTalkerData, deleteTalkerData,
  } = require('./utils');
 const validateToken = require('./middlewares/validateToken');
 const validateName = require('./middlewares/validateName');
@@ -72,14 +72,23 @@ app.get('/talker/:id', async (req, res) => {
     res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   });  
 
-app.post('/login', validateEmail, validatePassword, async (_req, res) => {
+app.post('/login', validateEmail, validatePassword, async (req, res) => {
 const randomToken = crypto.randomBytes(8).toString('hex');
 return res.status(200).json({ token: randomToken });
 });
+
+// validateToken, validateName, 
+// validateAge, validateTalk, validateWatchedAt, validateRate,
 
 app.post('/talker', validateToken, validateName, 
 validateAge, validateTalk, validateWatchedAt, validateRate, async (req, res) => {
   const newTalker = req.body; 
   const newTalkers = await newTalkerData(newTalker);
   return res.status(201).json(newTalkers);
+});
+
+app.delete('talker/:id', validateToken, async (req, res) => {
+  const deleteTalker = req.body;
+  await deleteTalkerData(deleteTalker);
+  return res.status(204).json();
 });

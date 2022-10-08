@@ -16,18 +16,30 @@ readTalkerData();
 async function newTalkerData(newTalker) {
     try {
         const oldTalkerData = await readTalkerData();
-        const newTalkers = { id: oldTalkerData.length + 1, ...newTalker };
-        const allTalkerData = JSON.stringify([...oldTalkerData, newTalkers]);
-        console.log(allTalkerData);
-
-        await fs.writeFile('./src/talker.json', allTalkerData);
-        return newTalkers;
+        const xablau = { id: (oldTalkerData.length + 1), ...newTalker };
+        console.log(xablau);
+        return xablau;
     } catch (error) {
         console.log(`erro na criação de dados: ${error}`);
+        return [];
     }
 }
+
+// async function deleteTalkerData(newTalker) {
+//     try {
+//         const currentTalkerData = await readTalkerData();
+//         const undeletedTalkerData = currentTalkerData.filter((talker) => talker.id !== newTalker.id);
+//         console.log(undeletedTalkerData);
+
+//         await fs.writeFile('./src/talker.json', allTalkerData);
+//         return newTalkers;
+//     } catch (error) {
+//         console.log(`erro na criação de dados: ${error}`);
+//     }
+// }
 
 module.exports = {
     readTalkerData,
     newTalkerData,
+    // deleteTalkerData,
 };
