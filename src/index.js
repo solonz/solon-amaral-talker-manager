@@ -4,8 +4,7 @@ const crypto = require('crypto');
 const validateEmail = require('./middlewares/validateEmail');
 const validatePassword = require('./middlewares/validatePassword');
 const { 
-  // writeNewTalkerData, 
-  readTalkerData, newTalkerData, deleteTalkerData,
+    readTalkerData, newTalkerData, deleteTalkerData,
  } = require('./utils');
 const validateToken = require('./middlewares/validateToken');
 const validateName = require('./middlewares/validateName');
@@ -77,9 +76,6 @@ const randomToken = crypto.randomBytes(8).toString('hex');
 return res.status(200).json({ token: randomToken });
 });
 
-// validateToken, validateName, 
-// validateAge, validateTalk, validateWatchedAt, validateRate,
-
 app.post('/talker', validateToken, validateName, 
 validateAge, validateTalk, validateWatchedAt, validateRate, async (req, res) => {
   const newTalker = req.body; 
@@ -89,8 +85,9 @@ validateAge, validateTalk, validateWatchedAt, validateRate, async (req, res) => 
   return res.status(201).json(newTalkers);
 });
 
-app.delete('talker/:id', validateToken, async (req, res) => {
-  const deleteTalker = req.body;
-  await deleteTalkerData(deleteTalker);
+app.delete('/talker/:id', validateToken, async (req, res) => {
+  const talkerId = Number(req.params.id);
+  console.log(talkerId);
+  await deleteTalkerData(talkerId);
   return res.status(204).json();
 });
